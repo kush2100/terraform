@@ -115,9 +115,9 @@ func (g *KmsGenerator) addAliases(client *kms.Client) error {
 	return nil
 }
 
-func (g *KmsGenerator) addGrants(keyID *string, client *kms.Client) {
+func (g *KmsGenerator) addGrants(keyId *string, client *kms.Client) {
 	p := kms.NewListGrantsPaginator(client, &kms.ListGrantsInput{
-		KeyId: keyID,
+		KeyId: keyId,
 	})
 	for p.HasMorePages() {
 		page, err := p.NextPage(context.TODO())
@@ -126,10 +126,10 @@ func (g *KmsGenerator) addGrants(keyID *string, client *kms.Client) {
 			return
 		}
 		for _, grant := range page.Grants {
-			grantID := *grant.KeyId + ":" + *grant.GrantId
+			grantId := *grant.KeyId + ":" + *grant.GrantId
 			resource := terraformutils.NewSimpleResource(
-				grantID,
-				grantID,
+				grantId,
+				grantId,
 				"aws_kms_grant",
 				"aws",
 				kmsAllowEmptyValues,
